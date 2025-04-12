@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # Database Service (PostgreSQL)
+  db:
+    image: postgres:15
+    container_name: ${COMPOSE_PROJECT_NAME:-personal_website}_db_dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${PG_USER:-postgres}
+      POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
+      POSTGRES_DB: ${PG_DB_NAME:-personal_website_adonis}
+    volumes:
+      - personal_website_db_data:/var/lib/postgresql/data
+    ports:
+      - '${DB_PORT_FORWARD:-5433}:5432'
+
+  # Application Service (AdonisJS/Inertia/Vite)
+  app:
+    container_name: ${COMPOSE_PROJECT_NAME:-personal_website}_app_dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - '${PORT:-3333}:3333'
+      - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+    environment:
+      # Basic Adonis Config
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: ${PORT:-3333}
+      HOST: 0.0.0.0
+      APP_KEY: ${APP_KEY?Please set APP_KEY in .env file}
+      SESSION_DRIVER: ${SESSION_DRIVER:-cookie}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      TZ: ${TZ:-UTC}
+
+      # Vite specific
+      VITE_APP_URL: http://localhost:${PORT:-3333}
+
+      # Database Connection
+      DB_CONNECTION: pg
+      PG_HOST: db
+      PG_PORT: 5432
+      PG_USER: ${PG_USER:-postgres}
+      PG_PASSWORD: ${PG_PASSWORD:-postgres}
+      PG_DB_NAME: ${PG_DB_NAME:-personal_website_adonis}
+
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/build
+    depends_on:
+      - db
+    command: ['node', 'ace', 'serve', '--hmr']
+
+  # NEW: Adminer Service (Database GUI)
+  adminer:
+    image: adminer # Use the official Adminer image
+    container_name: ${COMPOSE_PROJECT_NAME:-personal_website}_adminer_dev
+    restart: unless-stopped
+    ports:
+      - '8081:8080' # Map host port 8081 to Adminer's default port 8080 (change 8081 if it conflicts)
+    depends_on:
+      - db # Optional, but makes sense logically
+
+volumes:
+  personal_website_db_data:
