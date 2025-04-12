@@ -7,7 +7,7 @@ This project uses Docker Compose to provide a consistent development environment
 ### Prerequisites
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or Docker Engine + Docker Compose) installed and running.
-- Node.js and npm installed on your host machine (to run npm scripts).
+- Node.js and pnpm installed on your host machine (to run pnpm scripts).
 
 ### Initial Setup (First Time Only)
 
@@ -22,7 +22,7 @@ This project uses Docker Compose to provide a consistent development environment
     Install the necessary Node.js dependencies on your host machine to run the package scripts.
 
     ```bash
-    npm install
+    pnpm install
     ```
 
 3.  **Environment File:**
@@ -47,7 +47,7 @@ This project uses Docker Compose to provide a consistent development environment
     This command will build the necessary Docker images (if they don't exist or if the Dockerfile changed) and start the application, database, and Adminer containers in detached mode.
 
     ```bash
-    npm run docker:up
+    pnpm run docker:up
     ```
 
     - Wait a few moments for the database container to initialize fully.
@@ -55,7 +55,7 @@ This project uses Docker Compose to provide a consistent development environment
 6.  **Run Database Migrations:**
     This command executes the database migrations _inside_ the running application container. **You only need to do this once** after the very first time you start the containers (or after creating new migration files).
     ```bash
-    npm run migrate
+    pnpm run migrate
     ```
 
 ### Running the Application (Daily Use)
@@ -64,7 +64,7 @@ This project uses Docker Compose to provide a consistent development environment
     If the containers are not running, start them:
 
     ```bash
-    npm run docker:up
+    pnpm run docker:up
     ```
 
 2.  **Access the Application:**
@@ -84,5 +84,5 @@ This project uses Docker Compose to provide a consistent development environment
 To stop and remove the Docker containers, network, and volumes (optional):
 
 ```bash
-npm run docker:down
+pnpm run docker:down
 ```
