@@ -1,4 +1,4 @@
-# Consistency App
+# Personal Website App
 
 ## Development Setup using Docker
 
@@ -15,7 +15,7 @@ This project uses Docker Compose to provide a consistent development environment
 
     ```bash
     git clone <your-repository-url>
-    cd consistency-app-adonis
+    cd personal-website-app-adonis
     ```
 
 2.  **Install Host Dependencies:**
@@ -74,10 +74,10 @@ This project uses Docker Compose to provide a consistent development environment
     Open your web browser and navigate to: `http://localhost:8081`
     Log in using the following details (based on your `.env` file):
     - **System:** `PostgreSQL`
-    - **Server:** `consistency_db_dev`
+    - **Server:** `personal_website_db_dev`
     - **Username:** `postgres` (or your `PG_USER`)
     - **Password:** `postgres` (or your `PG_PASSWORD`)
-    - **Database:** `consistency_adonis` (or your `PG_DB_NAME`)
+    - **Database:** `personal_website_adonis` (or your `PG_DB_NAME`)
 
 ### Stopping the Application
 
